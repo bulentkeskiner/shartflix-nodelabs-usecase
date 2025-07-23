@@ -55,8 +55,6 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                       AppInkWell(
                         onTap: () => onBack(),
                         child: Container(
-                          height: 45,
-                          width: 45,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,
                             vertical: 6,

@@ -23,10 +23,6 @@ Bu proje, **Nodelabs Flutter Developer** rolü teknik değerlendirme kapsamında
 - Favori filmleri listeleme
 - Profil fotoğrafı seçme ve yükleme (`image_picker`)
 
-### 🎬 Ekstra Özellik Film Detay Sayfası
-
-- Filmin tüm detaylarını görüntüleme
-
 ### 🧭 Navigasyon
 
 - `BottomNavigationBar` kullanımı ile çoklu sayfa geçişi
@@ -39,6 +35,37 @@ Bu proje, **Nodelabs Flutter Developer** rolü teknik değerlendirme kapsamında
 - MVVM yapısı
 - `flutter_bloc` ile state management
 - `get_it` ile dependency injection
+
+---
+
+## 🔥 Ekstra Özellikler
+
+### 🎬 Film Detay Sayfası
+
+- Seçilen filme ait detayları gösteren özel bir ekran:
+- Film adı, açıklama, IMDb puanı, görsel gibi bilgiler detaylı şekilde sunulur.
+- Filmi favorilere ekleme/çıkarma özelliği entegre edilmiştir.
+- Kullanıcı arayüzü, Figma tasarımına birebir uyumludur.
+- Bloc yapısı ile state yönetimi sağlanmaktadır.
+
+### 🎨 Tema Desteği
+
+- Uygulama içerisinde **Açık/Karanlık Mod** geçişi desteklenmektedir.
+- Kullanıcı temayı anlık olarak değiştirebilir.
+- Tema değişimi, tüm ekranlara **dinamik** olarak uygulanır.
+
+### 🌍 Dil Desteği (Localization)
+
+- Uygulama **Türkçe** ve **İngilizce** dillerini desteklemektedir.
+- Dil seçimi kullanıcı tarafından uygulama içinden yapılabilir.
+- `easy_localization` paketi ile **dinamik dil değişimi** sağlanmaktadır.
+- Tüm metinler lokal dosyalardan çekilmektedir (`.json` veya `.arb` formatında).
+
+### 🔓 Çıkış Yapma (Logout)
+
+- Kullanıcı oturumu **güvenli** bir şekilde temizlenmektedir.
+- Oturum kapatıldığında kullanıcı, otomatik olarak **ana sayfaya** veya **giriş ekranına** yönlendirilir.
+- Gerekli tüm token ve kullanıcı bilgileri temizlenerek güvenli çıkış sağlanır.
 
 ---
 
@@ -158,12 +185,25 @@ lib/
 
 ---
 
+## Uygulama Ekran Görüntüleri
+
+![Giriş Yap](screenshots/login.png)
+![Kayıt Ol](screenshots/register.png)
+![Ana Ekran](screenshots/home.png)
+![Profil](screenshots/profile.png)
+![Film Detay](screenshots/profile_detail.png)
+![Dil Seçme](screenshots/select_language.png)
+![Fotoğraf Ekleme](screenshots/upload_photo.png)
+![Sınırlı Teklif](screenshots/limited_offer.png)
+
+---
+
 ## 📦 Kurulum
 
 1. `.env` dosyasını proje kök dizinine ekleyin:
 
 ```env
-API_BASE_URL=https://caseapi.servicelabs.tech/
+API_BASE_URL=LINK
 ```
 
 2. Bağımlılıkları yükleyin:
@@ -184,6 +224,11 @@ flutter run
 
 Bu proje, modern Flutter prensiplerine göre modüler ve sürdürülebilir olarak geliştirilmiştir. Clean Architecture, Bloc state management ve best practice’ler ışığında yapılandırılmıştır.
 
----
-
 Teşekkür ederim! 🙏
+
+## 👤 Geliştirici Bilgileri
+
+**Ad:** Bülent Keskiner  
+**E-posta:** [bulentkeskiner@pronton.me](mailto:bulentkeskiner@pronton.me)  
+**GitHub:** [github.com/bulentkeskiner](https://github.com/bulentkeskiner)  
+**LinkedIn:** [linkedin.com/in/bulentkeskiner](https://www.linkedin.com/in/bulentkeskiner/)

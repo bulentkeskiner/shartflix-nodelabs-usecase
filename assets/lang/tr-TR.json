@@ -79,6 +79,7 @@
   "logoutConfirmation": "Çıkış yapmak istediğinize emin misiniz?",
   "selectLanguage": "Dil Seçin",
   "cancel": "İptal",
+  "registerSuccess": "Kaydınız başarıyla oluşturuldu.",
 
   "errors": {
     "socketException": "Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin.",

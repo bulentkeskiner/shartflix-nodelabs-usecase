@@ -26,7 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, DataState> {
   }
 
   Future<void> _onRegister(RegisterSubmitted event, Emitter<DataState> emit) async {
-    emit(DataLoading());
+    emit(DataLoading(uiEvent: UIEvent.registerPage));
 
     final result = await _registerUseCase(
       params: RegisterParams(
@@ -36,23 +36,25 @@ class AuthBloc extends Bloc<AuthEvent, DataState> {
       ),
     );
 
-    result.fold(
-      (failure) => emit(DataFailed(error: failure.message)),
-      (user) => emit(DataSuccess(data: user)),
-    );
+    result.fold((failure) {
+      emit(DataFailed(error: failure.message, uiEvent: UIEvent.registerPage));
+    }, (user) => emit(DataSuccess(data: user, uiEvent: UIEvent.registerPage)));
   }
 
   Future<void> _onLogin(LoginSubmitted event, Emitter<DataState> emit) async {
-    emit(DataLoading());
+    emit(DataLoading(uiEvent: UIEvent.loginPage));
 
     final result = await _loginUseCase(
       params: LoginParams(email: event.email, password: event.password),
     );
 
-    result.fold((failure) => emit(DataFailed(error: failure.message)), (user) {
-      _saveUserUseCase(params: user);
-      emit(DataSuccess(data: user));
-    });
+    result.fold(
+      (failure) => emit(DataFailed(error: failure.message, uiEvent: UIEvent.loginPage)),
+      (user) {
+        _saveUserUseCase(params: user);
+        emit(DataSuccess(data: user, uiEvent: UIEvent.loginPage));
+      },
+    );
   }
 
   Future<void> _onLogout(LogoutEvent event, Emitter<DataState> emit) async {

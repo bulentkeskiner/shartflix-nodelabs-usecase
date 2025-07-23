@@ -21,6 +21,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   final PageController pageController = PageController();
 
   List<MovieModel> movies = [];
+  bool? hasReachedMax;
 
   @override
   void initState() {
@@ -38,19 +39,14 @@ class _DiscoverPageState extends State<DiscoverPage> {
       listener: (context, state) {
         if (state is DiscoverLoadedState) {
           movies = state.items;
+          hasReachedMax = state.hasReachedMax;
         }
 
-        if (state is DiscoverLoadingState) {
+        if (state is DiscoverLoadingState && movies.isEmpty) {
           context.showLoader();
         } else {
           context.hideLoader();
         }
-
-        /*if (state is DiscoverLoadingFavoriteState) {
-          context.showLoader();
-        } else {
-          context.hideLoader();
-        }*/
 
         if (state is DiscoverCompleteFavoriteState) {
           movies = state.items;
@@ -104,8 +100,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
     final state = bloc.state;
 
-    if (state is DiscoverLoadedState) {
-      if (!state.hasReachedMax && currentPage == (state.items.length - 1).toDouble()) {
+    if (state is! DiscoverLoadingState || state is! DiscoverLoadingFavoriteState) {
+      if (hasReachedMax == false && currentPage == (movies.length - 1).toDouble()) {
         bloc.add(DiscoverLoadMore());
       }
     }

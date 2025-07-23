@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
                       AppRouter.instance.router.routeInformationParser,
                   routeInformationProvider:
                       AppRouter.instance.router.routeInformationProvider,
-                  debugShowCheckedModeBanner: true,
+                  debugShowCheckedModeBanner: false,
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,

@@ -83,6 +83,7 @@ abstract class  LocaleKeys {
   static const logoutConfirmation = 'logoutConfirmation';
   static const selectLanguage = 'selectLanguage';
   static const cancel = 'cancel';
+  static const registerSuccess = 'registerSuccess';
   static const errors_socketException = 'errors.socketException';
   static const errors_badRequest = 'errors.badRequest';
   static const errors_unauthorized = 'errors.unauthorized';

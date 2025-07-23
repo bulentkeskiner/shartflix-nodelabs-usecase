@@ -36,7 +36,6 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   void initState() {
     super.initState();
 
-    // Animation controllers
     _themeAnimationController = AnimationController(
       duration: const Duration(milliseconds: 600),
       vsync: this,
@@ -119,7 +118,6 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          // Top row with title and controls
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -421,7 +419,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
 
   // MARK: Actions
   void _toggleTheme() {
-    // USECASENOTE: Zaman kısıtlamasından dolayı Light thema için detaylı düzenleme yapılmadı.
+    // DEVNOTES: Zaman kısıtlamasından dolayı Light thema için detaylı düzenleme yapılmadı.
     // Fakat tema değiştirme aksiyonu eklendi.
     sl<ThemeBloc>().add(ToggleThemeEvent());
     _themeAnimationController.forward().then((_) {

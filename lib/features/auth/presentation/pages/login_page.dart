@@ -41,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, DataState>(
+      listenWhen: (previous, current) => current.uiEvent == UIEvent.loginPage,
       listener: (context, state) {
         if (state is DataLoading) {
           context.showLoader();

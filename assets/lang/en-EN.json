@@ -79,6 +79,7 @@
   "logoutConfirmation": "Are you sure you want to log out?",
   "selectLanguage": "Select Language",
   "cancel": "Cancel",
+  "registerSuccess": "Your registration was successful.",
 
   "errors": {
     "socketException": "Cannot connect to the server. Please check your internet connection.",

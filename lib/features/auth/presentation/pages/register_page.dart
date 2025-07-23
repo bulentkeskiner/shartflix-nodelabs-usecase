@@ -36,18 +36,18 @@ class _RegisterPageState extends State<RegisterPage> {
   bool obscureConfirmPassword = true;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, DataState>(
+      listenWhen: (previous, current) => current.uiEvent == UIEvent.registerPage,
       listener: (context, state) {
         if (state is DataFailed) {
-          context.hideLoader();
           context.showDefaultSnackbar(lang(state.error));
-        } else if (state is DataLoading) {
+        } else if (state is DataSuccess) {
+          context.showDefaultSnackbar(lang(LocaleKeys.registerSuccess));
+          Navigator.pop(context);
+        }
+
+        if (state is DataLoading) {
           context.showLoader();
         } else {
           context.hideLoader();
