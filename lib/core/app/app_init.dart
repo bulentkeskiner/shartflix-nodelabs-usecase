@@ -14,7 +14,7 @@ import 'package:shartflix/support/bloc_observer.dart';
 @immutable
 final class ApplicationInitialize {
   Future<void> make() async {
-    await dotenv.load(fileName: "assets/.env");
+    await dotenv.load(fileName: "assets/release.env");
     WidgetsFlutterBinding.ensureInitialized();
 
     await runZonedGuarded<Future<void>>(_initialize, (error, stack) {

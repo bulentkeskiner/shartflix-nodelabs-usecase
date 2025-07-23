@@ -208,7 +208,7 @@ lib/
 
 ## 📦 Kurulum
 
-1. `.env` dosyasını assets/.env dizinine ekleyin:
+1. `.env` dosyasını assets/release.env dizinine ekleyin:
 
 ```env
 API_BASE_URL=LINK
