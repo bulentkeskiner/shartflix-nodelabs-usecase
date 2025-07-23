@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shartflix/core/app/app_assets_constants.dart';
+import 'package:shartflix/core/components/button/primary_button.dart';
+import 'package:shartflix/core/theme/constants/app_colors.dart';
+import 'package:shartflix/support/app_lang.dart';
 
 class LimitedOfferPage extends StatefulWidget {
   const LimitedOfferPage({super.key});
@@ -11,60 +15,64 @@ class _LimitedOfferPageState extends State<LimitedOfferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2D1B2E),
+      backgroundColor: Colors.transparent,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF4A2E4D), Color(0xFF2D1B2E)],
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(32),
+            topRight: Radius.circular(32),
+          ),
+          gradient: RadialGradient(
+            center: Alignment.topCenter,
+            radius: 1.0,
+            colors: [AppColors.primary.withValues(alpha: 0.4), AppColors.black],
+            stops: [0.0, 1.0],
           ),
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
-
-                // Başlık
-                const Text(
-                  'Sınırlı Teklif',
+                Text(
+                  lang(LocaleKeys.limitedOffer),
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
 
                 const SizedBox(height: 10),
 
-                // Alt başlık
-                const Text(
-                  'Jeton paketin\'ni seçerek bonus\nkazanın ve yeni bölümlerin kilidini açın!',
+                Text(
+                  lang(LocaleKeys.limited_offer_description),
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Color(0xFFB8A9B8), fontSize: 16),
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
 
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
 
-                // Bonus özellikler
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: Colors.white.withOpacity(0.1)),
+                    color: Colors.black.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
                   ),
                   child: Column(
                     children: [
-                      const Text(
-                        'Alacağınız Bonuslar',
+                      Text(
+                        lang(LocaleKeys.your_bonuses),
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
 
@@ -74,23 +82,23 @@ class _LimitedOfferPageState extends State<LimitedOfferPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           _buildBonusItem(
-                            icon: Icons.diamond_outlined,
-                            title: 'Premium\nHesap',
+                            path: AssetsConstants.bonusImage1,
+                            title: lang(LocaleKeys.bonus_premium),
                             color: const Color(0xFFE91E63),
                           ),
                           _buildBonusItem(
-                            icon: Icons.favorite_outline,
-                            title: 'Daha\nFazla Eşleşme',
+                            path: AssetsConstants.bonusImage2,
+                            title: lang(LocaleKeys.bonus_more_matches),
                             color: const Color(0xFFE91E63),
                           ),
                           _buildBonusItem(
-                            icon: Icons.arrow_upward,
-                            title: 'Öne\nÇıkarma',
+                            path: AssetsConstants.bonusImage3,
+                            title: lang(LocaleKeys.bonus_boost),
                             color: const Color(0xFFE91E63),
                           ),
                           _buildBonusItem(
-                            icon: Icons.favorite,
-                            title: 'Daha\nFazla Beğeni',
+                            path: AssetsConstants.bonusImage4,
+                            title: lang(LocaleKeys.bonus_more_likes),
                             color: const Color(0xFFE91E63),
                           ),
                         ],
@@ -99,60 +107,57 @@ class _LimitedOfferPageState extends State<LimitedOfferPage> {
                   ),
                 ),
 
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
 
-                // Jeton paketleri başlığı
-                const Text(
-                  'Kilidi açmak için bir jeton paketi seçin',
+                Text(
+                  lang(LocaleKeys.unlock_with_package),
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
 
-                // Jeton paketleri
                 Row(
                   children: [
                     Expanded(
-                      child: _buildJetonPaketi(
+                      child: _buildJetonItem(
                         bonus: '+10%',
-                        eskiFiyat: '200',
-                        yeniFiyat: '330',
-                        jeton: 'Jeton',
-                        fiyat: '₺99,99',
-                        altBaslik: 'Başına haftalık',
-                        bonusColor: const Color(0xFFE57373),
-                        backgroundColor: const Color(0xFFB71C1C),
+                        oldPrice: '200',
+                        newPrice: '330',
+                        jeton: lang(LocaleKeys.jeton),
+                        price: '₺99,99',
+                        bottomTitle: lang(LocaleKeys.per_week),
+                        bonusColor: AppColors.redDark,
+                        backgroundColor: AppColors.red,
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: _buildJetonPaketi(
+                      child: _buildJetonItem(
                         bonus: '+70%',
-                        eskiFiyat: '2.000',
-                        yeniFiyat: '3.375',
-                        jeton: 'Jeton',
-                        fiyat: '₺799,99',
-                        altBaslik: 'Başına haftalık',
-                        bonusColor: const Color(0xFF9C27B0),
-                        backgroundColor: const Color(0xFF7B1FA2),
-                        isPopular: true,
+                        oldPrice: '2.000',
+                        newPrice: '3.375',
+                        jeton: lang(LocaleKeys.jeton),
+                        price: '₺799,99',
+                        bottomTitle: lang(LocaleKeys.per_week),
+                        bonusColor: AppColors.purple,
+                        backgroundColor: AppColors.red,
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: _buildJetonPaketi(
+                      child: _buildJetonItem(
                         bonus: '+35%',
-                        eskiFiyat: '1.000',
-                        yeniFiyat: '1.350',
-                        jeton: 'Jeton',
-                        fiyat: '₺399,99',
-                        altBaslik: 'Başına haftalık',
-                        bonusColor: const Color(0xFFE57373),
-                        backgroundColor: const Color(0xFFB71C1C),
+                        oldPrice: '1.000',
+                        newPrice: '1.350',
+                        jeton: lang(LocaleKeys.jeton),
+                        price: '₺399,99',
+                        bottomTitle: lang(LocaleKeys.per_week),
+                        bonusColor: AppColors.redDark,
+                        backgroundColor: AppColors.red,
                       ),
                     ),
                   ],
@@ -164,25 +169,11 @@ class _LimitedOfferPageState extends State<LimitedOfferPage> {
                 SizedBox(
                   width: double.infinity,
                   height: 55,
-                  child: ElevatedButton(
+                  child: PrimaryButton(
                     onPressed: () {
-                      // Satın alma işlemi
+                      Navigator.pop(context);
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE53935),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: const Text(
-                      'Tüm Jetonları Gör',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    title: lang(LocaleKeys.view_all_tokens),
                   ),
                 ),
 
@@ -196,137 +187,174 @@ class _LimitedOfferPageState extends State<LimitedOfferPage> {
   }
 
   Widget _buildBonusItem({
-    required IconData icon,
+    required String path,
     required String title,
     required Color color,
   }) {
-    return Column(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
-            shape: BoxShape.circle,
-            border: Border.all(color: color.withOpacity(0.3), width: 2),
+    return Expanded(
+      child: Column(
+        children: [
+          Container(
+            width: 55,
+            height: 55,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.2),
+              shape: BoxShape.circle,
+              border: Border.all(color: AppColors.white.withValues(alpha: 0.2), width: 3),
+            ),
+            child: Padding(padding: const EdgeInsets.all(8.0), child: Image.asset(path)),
           ),
-          child: Icon(icon, color: color, size: 30),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 32,
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: AppColors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget _buildJetonPaketi({
+  Widget _buildJetonItem({
     required String bonus,
-    required String eskiFiyat,
-    required String yeniFiyat,
+    required String oldPrice,
+    required String newPrice,
     required String jeton,
-    required String fiyat,
-    required String altBaslik,
+    required String price,
+    required String bottomTitle,
     required Color bonusColor,
     required Color backgroundColor,
-    bool isPopular = false,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [backgroundColor, backgroundColor.withOpacity(0.8)],
-        ),
-      ),
-      child: Column(
+    return SizedBox(
+      height: 220,
+      child: Stack(
         children: [
-          // Bonus etiketi
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            decoration: BoxDecoration(
-              color: bonusColor,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
+          Positioned(
+            top: 10,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: AppColors.white.withValues(alpha: 0.2),
+                  width: 2.6,
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [bonusColor.withValues(alpha: 0.8), backgroundColor],
+                ),
               ),
-            ),
-            child: Text(
-              bonus,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
+              child: Column(
+                children: [
+                  Flexible(
+                    flex: 8,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          oldPrice,
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 15,
+                            decoration: TextDecoration.lineThrough,
+                            decorationColor: AppColors.white,
+                          ),
+                        ),
+
+                        Text(
+                          newPrice,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        Text(
+                          jeton,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Divider(
+                    color: AppColors.white.withValues(alpha: 0.2),
+                    thickness: 1.2,
+                    endIndent: 10,
+                    indent: 10,
+                  ),
+
+                  Flexible(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Text(
+                          price,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+
+                        // Alt başlık
+                        Text(
+                          bottomTitle,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: AppColors.white, fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
 
-          // İçerik
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              children: [
-                // Eski fiyat (üstü çizili)
-                Text(
-                  eskiFiyat,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.6),
-                    fontSize: 16,
-                    decoration: TextDecoration.lineThrough,
-                    decorationColor: Colors.white.withOpacity(0.6),
+          // Bonus etiketi
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                width: 61,
+                height: 25,
+                decoration: BoxDecoration(
+                  color: bonusColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  border: Border.all(
+                    color: AppColors.white.withValues(alpha: 0.2),
+                    width: 2.6,
                   ),
                 ),
-
-                const SizedBox(height: 5),
-
-                // Yeni fiyat
-                Text(
-                  yeniFiyat,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                child: Center(
+                  child: Text(
+                    bonus,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
-
-                // Jeton
-                Text(
-                  jeton,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-
-                const SizedBox(height: 15),
-
-                // Fiyat
-                Text(
-                  fiyat,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                // Alt başlık
-                Text(
-                  altBaslik,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 12),
-                ),
-              ],
+              ),
             ),
           ),
         ],

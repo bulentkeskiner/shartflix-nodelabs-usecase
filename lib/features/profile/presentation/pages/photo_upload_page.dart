@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shartflix/core/app/app_permission.dart';
+import 'package:shartflix/core/components/app_ink_well.dart';
 import 'package:shartflix/core/components/button/primary_button.dart';
 import 'package:shartflix/core/theme/constants/app_colors.dart';
 import 'package:shartflix/core/util/context_extension.dart';
@@ -27,7 +28,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileBloc, ProfileState>(
       listener: (context, state) {
-        if (state is ProfileLoadingState) {
+        if (state is ProfileUploadLoadingState) {
           context.showLoader();
         } else {
           context.hideLoader();
@@ -51,7 +52,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                 children: [
                   Row(
                     children: [
-                      InkWell(
+                      AppInkWell(
                         onTap: () => onBack(),
                         child: Container(
                           height: 45,
@@ -104,7 +105,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
 
                   // Photo Upload Area
                   if (_selectedImage != null)
-                    InkWell(
+                    AppInkWell(
                       onTap: () => onSelectPhoto(),
                       child: Container(
                         width: 160,
@@ -121,8 +122,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                       ),
                     )
                   else
-                    InkWell(
-                      hoverColor: Colors.transparent,
+                    AppInkWell(
                       onTap: () => onSelectPhoto(),
                       child: Container(
                         width: 160,

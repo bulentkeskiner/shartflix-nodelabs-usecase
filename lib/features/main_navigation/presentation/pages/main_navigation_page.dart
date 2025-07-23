@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shartflix/di_helper.dart';
-import 'package:shartflix/features/discover/presentation/bloc/discover_bloc.dart';
-import 'package:shartflix/features/discover/presentation/bloc/discover_event.dart';
 import 'package:shartflix/features/discover/presentation/pages/discover_page.dart';
 import 'package:shartflix/features/main_navigation/presentation/cubit/main_nav_cubit.dart';
 import 'package:shartflix/features/profile/presentation/pages/profile_page.dart';
@@ -16,16 +13,6 @@ class MainNavigationPage extends StatefulWidget {
 }
 
 class _MainNavigationPageState extends State<MainNavigationPage> {
-  final int _currentIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      sl<DiscoverBloc>().add(DiscoverInitialLoad());
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MainNavCubit, int>(
@@ -42,7 +29,7 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
               ),
             ),
             child: BottomNavigationBar(
-              currentIndex: _currentIndex,
+              currentIndex: index,
               onTap: (index) {
                 context.read<MainNavCubit>().changeTab(index);
               },

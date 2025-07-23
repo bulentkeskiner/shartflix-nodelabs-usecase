@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shartflix/core/components/app_ink_well.dart';
 import 'package:shartflix/core/enum/route_type.dart';
 import 'package:shartflix/core/theme/constants/app_colors.dart';
 import 'package:shartflix/core/util/context_extension.dart';
@@ -84,7 +85,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ),
                 const SizedBox(width: 6),
-                InkWell(
+                AppInkWell(
                   onTap: () => onTapAddPhoto(),
                   child: Container(
                     height: 35,

@@ -5,8 +5,10 @@ import 'package:shartflix/features/auth/presentation/pages/login_page.dart';
 import 'package:shartflix/features/auth/presentation/pages/register_page.dart';
 import 'package:shartflix/features/limited_offer/presentation/pages/limited_offer_page.dart';
 import 'package:shartflix/features/main_navigation/presentation/pages/main_navigation_page.dart';
+import 'package:shartflix/features/profile/presentation/pages/moview_detail_page.dart';
 import 'package:shartflix/features/profile/presentation/pages/photo_upload_page.dart';
 import 'package:shartflix/features/splash/presentation/pages/splash_pages.dart';
+import 'package:shartflix/models/movie_model.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -41,6 +43,13 @@ class AppRouter {
       GoRoute(
         path: RouteType.limiterOffer.name,
         builder: (context, state) => const LimitedOfferPage(),
+      ),
+      GoRoute(
+        path: RouteType.movieDetail.name,
+        builder: (context, state) {
+          var extra = state.extra as MovieModel?;
+          return MovieDetailPage(movie: extra);
+        },
       ),
     ],
   );

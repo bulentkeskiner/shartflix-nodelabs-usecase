@@ -35,17 +35,42 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
         _items = movie.movies ?? [];
 
         var maxPage = movie.pagination?.maxPage ?? 0;
-        var page = (movie.pagination?.currentPage ?? 0);
+        var page = movie.pagination?.currentPage ?? 0;
 
-        _hasReachedMax = page < maxPage;
-        page += 1;
+        _hasReachedMax = page >= maxPage;
+        if (!_hasReachedMax) currentPage = page + 1;
 
         emit(DiscoverLoadedState(items: _items, hasReachedMax: _hasReachedMax));
       },
     );
   }
 
-  _onMovieLoadMoreList(DiscoverEvent event, Emitter<DiscoverState> state) {}
+  _onMovieLoadMoreList(DiscoverEvent event, Emitter<DiscoverState> emit) async {
+    if (_hasReachedMax) return;
+
+    if (emit is DiscoverLoadingState) return;
+
+    emit(DiscoverLoadingState());
+
+    final result = await _getMovieListUseCase(params: currentPage);
+
+    result.fold(
+      (failure) {
+        emit(DiscoverErrorState(failure.message));
+      },
+      (movie) {
+        _items.addAll(movie.movies ?? []);
+
+        var maxPage = movie.pagination?.maxPage ?? 0;
+        var page = (movie.pagination?.currentPage ?? 0);
+
+        _hasReachedMax = page >= maxPage;
+        if (!_hasReachedMax) currentPage = page + 1;
+
+        emit(DiscoverLoadedState(items: _items, hasReachedMax: _hasReachedMax));
+      },
+    );
+  }
 
   _onToggleFavorite(DiscoverToggleFavorite event, Emitter<DiscoverState> emit) async {
     emit(DiscoverLoadingFavoriteState());

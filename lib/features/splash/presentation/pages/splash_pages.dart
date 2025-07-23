@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shartflix/core/app/app_assets_constants.dart';
 import 'package:shartflix/core/enum/route_type.dart';
 import 'package:shartflix/core/util/context_extension.dart';
 import 'package:shartflix/di_helper.dart';
 import 'package:shartflix/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:shartflix/features/splash/presentation/bloc/splash_event.dart';
 import 'package:shartflix/features/splash/presentation/bloc/splash_state.dart';
+import 'package:shartflix/support/app_lang.dart';
 
 class SplashPages extends StatefulWidget {
   const SplashPages({super.key});
@@ -77,27 +79,15 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
   }
 
   void _startAnimations() async {
-    // Gradient animasyonunu sürekli tekrarla
     _gradientController.repeat(reverse: true);
 
-    // Logo animasyonunu başlat
     await Future.delayed(const Duration(milliseconds: 300));
     _logoController.forward();
 
-    // Text animasyonunu başlat
     await Future.delayed(const Duration(milliseconds: 800));
     _textController.forward();
 
-    // 3 saniye sonra ana sayfaya geç
     await Future.delayed(const Duration(seconds: 3));
-  }
-
-  @override
-  void dispose() {
-    _gradientController.dispose();
-    _logoController.dispose();
-    _textController.dispose();
-    super.dispose();
   }
 
   @override
@@ -161,7 +151,6 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
                     children: [
                       const Spacer(flex: 2),
 
-                      // Logo alanı
                       AnimatedBuilder(
                         animation: _logoController,
                         builder: (context, child) {
@@ -170,8 +159,8 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
                             child: Opacity(
                               opacity: _logoOpacity.value,
                               child: Container(
-                                width: 120,
-                                height: 120,
+                                width: 130,
+                                height: 130,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   gradient: RadialGradient(
@@ -182,16 +171,17 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: const Color(0xFFE91E63).withOpacity(0.3),
+                                      color: const Color(
+                                        0xFFE91E63,
+                                      ).withValues(alpha: 0.3),
                                       blurRadius: 20,
                                       spreadRadius: 5,
                                     ),
                                   ],
                                 ),
-                                child: const Icon(
-                                  Icons.play_circle_filled,
-                                  size: 60,
-                                  color: Colors.white,
+                                child: Image.asset(
+                                  AssetsConstants.logoTransparent,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -201,7 +191,6 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
 
                       const SizedBox(height: 40),
 
-                      // Başlık ve alt başlık
                       AnimatedBuilder(
                         animation: _textController,
                         builder: (context, child) {
@@ -211,8 +200,8 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
                               opacity: _textOpacity,
                               child: Column(
                                 children: [
-                                  const Text(
-                                    'MOVIE APP',
+                                  Text(
+                                    lang(LocaleKeys.appName),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 32,
@@ -222,9 +211,9 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
                                   ),
                                   const SizedBox(height: 15),
                                   Text(
-                                    'Film ve Dizilerin Eğlenceli Dünyası',
+                                    lang(LocaleKeys.splashSubtitle),
                                     style: TextStyle(
-                                      color: Colors.white.withOpacity(0.8),
+                                      color: Colors.white.withValues(alpha: 0.7),
                                       fontSize: 16,
                                       fontWeight: FontWeight.w300,
                                       letterSpacing: 1,
@@ -263,9 +252,9 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
                                 ),
                                 const SizedBox(height: 20),
                                 Text(
-                                  'Yükleniyor...',
+                                  lang(LocaleKeys.loading),
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.7),
+                                    color: Colors.white.withValues(alpha: 0.7),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -284,5 +273,13 @@ class _SplashPagesState extends State<SplashPages> with TickerProviderStateMixin
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _gradientController.dispose();
+    _logoController.dispose();
+    _textController.dispose();
+    super.dispose();
   }
 }

@@ -28,13 +28,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
       sl<DiscoverBloc>().add(DiscoverInitialLoad());
     });
 
-    pageController.addListener(() {
-      final currentPage = pageController.page?.round() ?? 0;
-
-      if (currentPage == movies.length - 1) {
-        print("onLoad: 2");
-      }
-    });
+    pageController.addListener(onPageScroll);
   }
 
   @override
@@ -90,5 +84,21 @@ class _DiscoverPageState extends State<DiscoverPage> {
   void dispose() {
     super.dispose();
     pageController.removeListener(() {});
+  }
+
+  void onPageScroll() {
+    final bloc = sl<DiscoverBloc>();
+    final currentPage = pageController.page;
+
+    final state = bloc.state;
+
+    if (state is DiscoverLoadedState) {
+      print(currentPage);
+      print((state.items.length - 1).toDouble());
+      if (!state.hasReachedMax && currentPage == (state.items.length - 1).toDouble()) {
+        print("added");
+        bloc.add(DiscoverLoadMore());
+      }
+    }
   }
 }

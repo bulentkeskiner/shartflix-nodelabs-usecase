@@ -145,28 +145,27 @@ class _DiscoverItemState extends State<DiscoverItem> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          if ((model.awards ?? "").isNotEmpty)
-                            ReadMoreText(
-                              "${model.awards} ${model.awards!}",
-                              style: TextStyle(
-                                color: AppColors.white.withValues(alpha: 0.75),
-                                fontSize: 13,
-                              ),
-                              trimLines: 2,
-                              trimMode: TrimMode.Line,
-                              moreStyle: TextStyle(
-                                color: AppColors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              lessStyle: TextStyle(
-                                color: AppColors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              trimExpandedText: lang(LocaleKeys.showLess),
-                              trimCollapsedText: lang(LocaleKeys.showMore),
+                          ReadMoreText(
+                            "${model.awards}",
+                            style: TextStyle(
+                              color: AppColors.white.withValues(alpha: 0.75),
+                              fontSize: 13,
                             ),
+                            trimLines: 2,
+                            trimMode: TrimMode.Line,
+                            moreStyle: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            lessStyle: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            trimExpandedText: lang(LocaleKeys.showLess),
+                            trimCollapsedText: lang(LocaleKeys.showMore),
+                          ),
                         ],
                       ),
                     ),

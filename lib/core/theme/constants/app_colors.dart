@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const Color background = Color.fromARGB(255, 0, 0, 0);
+  static const Color black = Color.fromARGB(255, 0, 0, 0);
   static const Color primary = Color(0xFFE50914); // Kırmızı butonlar
   static const Color secondary = Color(0xFF3A3A3A);
   static const Color inputBackground = Color(0xFF212121);
@@ -13,4 +14,7 @@ class AppColors {
   static const Color apple = Color(0xFF000000);
   static const Color popUpDark = Color(0xFF1C1C1E);
   static const Color heartRed = Color(0xFFFF2E63);
+  static const Color red = Color(0xFFE50914);
+  static const Color purple = Color(0xFF5949E6);
+  static const Color redDark = Color(0xFF6F060B);
 }

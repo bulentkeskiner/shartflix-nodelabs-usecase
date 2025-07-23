@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shartflix/core/components/app_ink_well.dart';
+import 'package:shartflix/core/enum/route_type.dart';
 import 'package:shartflix/di_helper.dart';
 import 'package:shartflix/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:shartflix/features/profile/presentation/bloc/profile_event.dart';
@@ -65,35 +68,38 @@ class _MyFavoriteMovieViewState extends State<MyFavoriteMovieView> {
                     "https://images-na.ssl-images-amazon.com",
                   );
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey[800],
-                            borderRadius: BorderRadius.circular(12),
-                            image: DecorationImage(
-                              image: CachedNetworkImageProvider(correctedUrl),
-                              fit: BoxFit.cover,
+                  return AppInkWell(
+                    onTap: () => onTapMovieDetail(movie),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[800],
+                              borderRadius: BorderRadius.circular(12),
+                              image: DecorationImage(
+                                image: CachedNetworkImageProvider(correctedUrl),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        movie.title ?? "",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                        const SizedBox(height: 8),
+                        Text(
+                          movie.title ?? "",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      Text(
-                        movie.genre ?? "",
-                        style: TextStyle(color: Colors.grey[400], fontSize: 12),
-                      ),
-                    ],
+                        Text(
+                          movie.genre ?? "",
+                          style: TextStyle(color: Colors.grey[400], fontSize: 12),
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),
@@ -107,5 +113,9 @@ class _MyFavoriteMovieViewState extends State<MyFavoriteMovieView> {
         }
       },
     );
+  }
+
+  onTapMovieDetail(MovieModel model) {
+    context.pushNamed(RouteType.movieDetail.name, extra: model);
   }
 }

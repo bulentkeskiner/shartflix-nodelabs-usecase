@@ -45,7 +45,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Future<void> _onPhotoUpload(PhotoUploadEvent event, Emitter<ProfileState> emit) async {
-    emit(ProfileLoadingState());
+    emit(ProfileUploadLoadingState());
     final result = await _uploadProfileUseCase(event.file);
     result.fold(
       (error) => emit(ProfileErrorState(error.message)),

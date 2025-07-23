@@ -12,6 +12,8 @@ class ProfileInitialState extends ProfileState {}
 
 class ProfileLoadingState extends ProfileState {}
 
+class ProfileUploadLoadingState extends ProfileState {}
+
 class ProfileLoadedState extends ProfileState {
   final UserModel model;
 
