@@ -6,8 +6,8 @@ Bu proje, **Nodelabs Flutter Developer** rolü teknik değerlendirme kapsamında
 
 ### 🔐 Kimlik Doğrulama
 
-- Kullanıcı Girişi / Kayıt ekranları
-- Oturum yönetimi (token güvenli biçimde saklanır - `flutter_secure_storage`)
+- Kullanıcı Girişi / Kayıt ekranı
+- Oturum yönetimi (token güvenli biçimde saklama - `flutter_secure_storage`)
 - Başarılı giriş sonrası otomatik yönlendirme
 
 ### 🏠 Ana Sayfa (Home)
@@ -59,12 +59,12 @@ Bu proje, **Nodelabs Flutter Developer** rolü teknik değerlendirme kapsamında
 - Uygulama **Türkçe** ve **İngilizce** dillerini desteklemektedir.
 - Dil seçimi kullanıcı tarafından uygulama içinden yapılabilir.
 - `easy_localization` paketi ile **dinamik dil değişimi** sağlanmaktadır.
-- Tüm metinler lokal dosyalardan çekilmektedir (`.json` veya `.arb` formatında).
+- Tüm metinler lokal dosyalardan çekilmektedir (`.json` formatında).
 
 ### 🔓 Çıkış Yapma (Logout)
 
 - Kullanıcı oturumu **güvenli** bir şekilde temizlenmektedir.
-- Oturum kapatıldığında kullanıcı, otomatik olarak **ana sayfaya** veya **giriş ekranına** yönlendirilir.
+- Oturum kapatıldığında kullanıcı, otomatik olarak **giriş ekranına** yönlendirilir.
 - Gerekli tüm token ve kullanıcı bilgileri temizlenerek güvenli çıkış sağlanır.
 
 ---
@@ -98,7 +98,7 @@ Bu proje, **Nodelabs Flutter Developer** rolü teknik değerlendirme kapsamında
 - easy_localization
 - flutter_dotenv
 
-### 🛠️ Yardımcılar & Logger
+### 🛠️ Tools & Logger
 
 - validators
 - logger
@@ -120,7 +120,6 @@ Bu proje, **Nodelabs Flutter Developer** rolü teknik değerlendirme kapsamında
 - ✅ Splash Screen ve App Icon
 - ✅ Güvenli token yönetimi
 - ✅ Performans optimizasyonları
-- ✅ Lottie gibi animasyon desteği
 
 ---
 
@@ -187,10 +186,8 @@ lib/
 
 ## Uygulama Ekran Görüntüleri
 
-![Giriş Yap](screenshots/login.png)
-![Kayıt Ol](screenshots/register.png)
-![Ana Ekran](screenshots/home.png)
-![Profil](screenshots/profile.png)
+![Giriş Yap](screenshots/login.png) ![Kayıt Ol](screenshots/register.png)
+![Ana Ekran](screenshots/home.png) ![Profil](screenshots/profile.png)
 ![Film Detay](screenshots/profile_detail.png)
 ![Dil Seçme](screenshots/select_language.png)
 ![Fotoğraf Ekleme](screenshots/upload_photo.png)
@@ -200,7 +197,7 @@ lib/
 
 ## 📦 Kurulum
 
-1. `.env` dosyasını proje kök dizinine ekleyin:
+1. `.env` dosyasını assets/.env dizinine ekleyin:
 
 ```env
 API_BASE_URL=LINK
@@ -228,7 +225,7 @@ Teşekkür ederim! 🙏
 
 ## 👤 Geliştirici Bilgileri
 
-**Ad:** Bülent Keskiner  
-**E-posta:** [bulentkeskiner@pronton.me](mailto:bulentkeskiner@pronton.me)  
+**Bülent Keskiner**  
+**E-posta:** [bulentkeskiner@proton.me](mailto:bulentkeskiner@proton.me)  
 **GitHub:** [github.com/bulentkeskiner](https://github.com/bulentkeskiner)  
 **LinkedIn:** [linkedin.com/in/bulentkeskiner](https://www.linkedin.com/in/bulentkeskiner/)
