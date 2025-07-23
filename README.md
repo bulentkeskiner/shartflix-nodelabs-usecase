@@ -226,7 +226,7 @@ flutter pub get
 flutter run
 ```
 
-[📥 APK'yi İndir](download/v1.0.0.apk)
+[📥 APK'yi İndir](https://github.com/bulentkeskiner/shartflix-nodelabs-usecase/blob/master/download/v1.0.0.apk)
 
 ---
 
