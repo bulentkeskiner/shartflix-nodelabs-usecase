@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:shartflix/core/app/app_logger.dart';
 import 'package:shartflix/core/exceptions/app_exception.dart';
 import 'package:shartflix/core/network/end_points.dart';
 import 'package:shartflix/core/network/network_service.dart';
@@ -25,6 +26,10 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     return response.fold((l) => Left(l), (r) {
       final jsonData = r.data;
       if (jsonData == null) {
+        logger.error(
+          "The data is not in the valid format: ${EndPoints.userLogin()}",
+          error: r.toString(),
+        );
         return Left(
           AppException(
             identifier: EndPoints.userLogin(),
