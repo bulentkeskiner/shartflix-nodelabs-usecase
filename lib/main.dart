@@ -24,8 +24,7 @@ Future<void> main() async {
     EasyLocalization(
       supportedLocales: const [Locale('tr', 'TR'), Locale('en', 'EN')],
       path: 'assets/lang',
-      fallbackLocale: const Locale('tr-TR'),
-      startLocale: const Locale('tr-TR'),
+      fallbackLocale: Locale('tr', 'TR'),
       child: const MyApp(),
     ),
   );
@@ -58,7 +57,7 @@ class MyApp extends StatelessWidget {
             return BlocBuilder<LanguageBloc, LanguageState>(
               builder: (context, langState) {
                 return MaterialApp.router(
-                  title: 'Shartflix App',
+                  title: 'SINFLIX App',
                   theme: ThemeData(
                     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                   ),
@@ -70,7 +69,7 @@ class MyApp extends StatelessWidget {
                   debugShowCheckedModeBanner: true,
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,
-                  locale: langState.locale,
+                  locale: context.locale,
                   themeMode: state.isDarkMode ? ThemeMode.dark : ThemeMode.light,
                   darkTheme: state.isDarkMode
                       ? DarkThemeData.instance.data

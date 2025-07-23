@@ -1,5 +1,5 @@
 {
-  "appName": "Shartflix",
+  "appName": "SINFLIX",
   "lorem": "Tempus varius a vitae interdum id tortor\nelementum tristique eleifend at.",
   "nameSurname": "Ad Soyad",
   "greeting": "Merhabalar",
@@ -75,6 +75,10 @@
   "details": "Detaylar",
   "gallery": "Galeri",
   "play": "Oynat",
+  "logout": "Çıkış Yap",
+  "logoutConfirmation": "Çıkış yapmak istediğinize emin misiniz?",
+  "selectLanguage": "Dil Seçin",
+  "cancel": "İptal",
 
   "errors": {
     "socketException": "Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin.",

@@ -79,6 +79,10 @@ abstract class  LocaleKeys {
   static const details = 'details';
   static const gallery = 'gallery';
   static const play = 'play';
+  static const logout = 'logout';
+  static const logoutConfirmation = 'logoutConfirmation';
+  static const selectLanguage = 'selectLanguage';
+  static const cancel = 'cancel';
   static const errors_socketException = 'errors.socketException';
   static const errors_badRequest = 'errors.badRequest';
   static const errors_unauthorized = 'errors.unauthorized';

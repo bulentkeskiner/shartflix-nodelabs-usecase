@@ -1,8 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shartflix/core/enum/route_type.dart';
 import 'package:shartflix/core/theme/constants/app_colors.dart';
 import 'package:shartflix/di_helper.dart';
+import 'package:shartflix/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:shartflix/features/auth/presentation/bloc/auth_event.dart';
 import 'package:shartflix/features/language/presentation/bloc/lang_bloc.dart';
 import 'package:shartflix/features/language/presentation/bloc/lang_event.dart';
 import 'package:shartflix/features/limited_offer/presentation/pages/limited_offer_page.dart';
@@ -60,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     final themeState = context.watch<ThemeBloc>().state;
-    final languageState = context.watch<LanguageBloc>().state;
+    context.watch<LanguageBloc>();
 
     final isDarkMode = themeState.isDarkMode;
 
@@ -89,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
             },
             child: Column(
               children: [
-                _buildEnhancedHeader(isDarkMode, languageState.flag),
+                _buildEnhancedHeader(isDarkMode),
 
                 ProfileView(),
 
@@ -109,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
     );
   }
 
-  Widget _buildEnhancedHeader(bool isDarkMode, String selectedLanguage) {
+  Widget _buildEnhancedHeader(bool isDarkMode) {
     return Container(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -167,7 +172,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                           Icon(Icons.language, color: Colors.blue, size: 16),
                           const SizedBox(width: 4),
                           Text(
-                            selectedLanguage,
+                            context.locale.languageCode.toUpperCase(),
                             style: TextStyle(
                               color: Colors.blue,
                               fontSize: 12,
@@ -338,7 +343,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 child: Column(
                   children: [
                     Text(
-                      'Dil Seçin',
+                      lang(LocaleKeys.selectLanguage),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -346,8 +351,8 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                       ),
                     ),
                     const SizedBox(height: 20),
-                    _buildLanguageOption('TR', 'Türkçe', 'TR'),
-                    _buildLanguageOption('EN', 'English', 'EN'),
+                    _buildLanguageOption('tr', 'Türkçe', 'TR'),
+                    _buildLanguageOption('en', 'English', 'EN'),
                     const SizedBox(height: 20),
                   ],
                 ),
@@ -360,15 +365,17 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   }
 
   Widget _buildLanguageOption(String code, String name, String flag) {
-    var selectedLanguage = context.read<LanguageBloc>().state;
-    bool isSelected = selectedLanguage.flag == flag;
+    var selectedLanguage = context.locale;
+    bool isSelected = selectedLanguage.languageCode == code;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       margin: const EdgeInsets.only(bottom: 12),
       child: InkWell(
         onTap: () {
-          sl<LanguageBloc>().add(ChangeLanguageEvent(Locale(code), flag));
+          var newLocale = Locale(code, code.toUpperCase());
+          context.setLocale(newLocale);
+          sl<LanguageBloc>().add(ChangeLanguageEvent(newLocale, flag));
           Navigator.pop(context);
         },
         borderRadius: BorderRadius.circular(12),
@@ -438,19 +445,22 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
               Icon(Icons.exit_to_app, color: Colors.red),
               const SizedBox(width: 8),
               Text(
-                'Çıkış Yap',
+                lang(LocaleKeys.logout),
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
               ),
             ],
           ),
           content: Text(
-            'Uygulamadan çıkmak istediğinizden emin misiniz?',
+            lang(LocaleKeys.logoutConfirmation),
             style: TextStyle(color: Colors.white70),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('İptal', style: TextStyle(color: Colors.white70)),
+              child: Text(
+                lang(LocaleKeys.cancel),
+                style: TextStyle(color: Colors.white70),
+              ),
             ),
             ElevatedButton(
               onPressed: () {
@@ -463,7 +473,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text('Çıkış Yap'),
+              child: Text(lang(LocaleKeys.logout)),
             ),
           ],
         );
@@ -472,7 +482,8 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   }
 
   void _performExit() {
-    SystemNavigator.pop();
+    sl<AuthBloc>().add(LogoutEvent());
+    context.go(RouteType.splash.name);
   }
 
   onTapLimitedOffer() {

@@ -3,6 +3,7 @@ import 'package:shartflix/core/resources/data_state.dart';
 import 'package:shartflix/features/auth/domain/entities/login_params.dart';
 import 'package:shartflix/features/auth/domain/entities/register_params.dart';
 import 'package:shartflix/features/auth/domain/use_cases/login_use_case.dart';
+import 'package:shartflix/features/auth/domain/use_cases/logout_use_case.dart';
 import 'package:shartflix/features/auth/domain/use_cases/register_use_case.dart';
 import 'package:shartflix/features/auth/presentation/bloc/auth_event.dart';
 import 'package:shartflix/features/splash/domain/usecases/save_user_use_case.dart';
@@ -11,11 +12,17 @@ class AuthBloc extends Bloc<AuthEvent, DataState> {
   final RegisterUseCase _registerUseCase;
   final LoginUseCase _loginUseCase;
   final SaveUserUseCase _saveUserUseCase;
+  final LogoutUseCase _logoutUseCase;
 
-  AuthBloc(this._registerUseCase, this._loginUseCase, this._saveUserUseCase)
-    : super(DataInitial()) {
+  AuthBloc(
+    this._registerUseCase,
+    this._loginUseCase,
+    this._saveUserUseCase,
+    this._logoutUseCase,
+  ) : super(DataInitial()) {
     on<RegisterSubmitted>(_onRegister);
     on<LoginSubmitted>(_onLogin);
+    on<LogoutEvent>(_onLogout);
   }
 
   Future<void> _onRegister(RegisterSubmitted event, Emitter<DataState> emit) async {
@@ -46,5 +53,9 @@ class AuthBloc extends Bloc<AuthEvent, DataState> {
       _saveUserUseCase(params: user);
       emit(DataSuccess(data: user));
     });
+  }
+
+  Future<void> _onLogout(LogoutEvent event, Emitter<DataState> emit) async {
+    _logoutUseCase();
   }
 }

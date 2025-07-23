@@ -1,5 +1,5 @@
 {
-  "appName": "Shartflix",
+  "appName": "SINFLIX",
   "lorem": "Tempus varius a vitae interdum id tortor\nelementum tristique eleifend at.",
   "nameSurname": "Full Name",
   "greeting": "Hello",
@@ -75,6 +75,10 @@
   "details": "Details",
   "gallery": "Gallery",
   "play": "Play",
+  "logout": "Logout",
+  "logoutConfirmation": "Are you sure you want to log out?",
+  "selectLanguage": "Select Language",
+  "cancel": "Cancel",
 
   "errors": {
     "socketException": "Cannot connect to the server. Please check your internet connection.",

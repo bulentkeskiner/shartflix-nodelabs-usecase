@@ -7,7 +7,7 @@ import 'package:shartflix/models/user_model.dart';
 class AuthRepositoryImpl extends AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
 
-  AuthRepositoryImpl({required this.authRemoteDataSource});
+  AuthRepositoryImpl(this.authRemoteDataSource);
 
   @override
   Future<Either<AppException, UserModel>> register({
@@ -24,5 +24,10 @@ class AuthRepositoryImpl extends AuthRepository {
     required String password,
   }) {
     return authRemoteDataSource.login(email: email, password: password);
+  }
+
+  @override
+  Future<bool> logout() {
+    return authRemoteDataSource.logout();
   }
 }

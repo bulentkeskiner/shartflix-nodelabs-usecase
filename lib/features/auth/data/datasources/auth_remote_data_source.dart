@@ -14,7 +14,5 @@ abstract class AuthRemoteDataSource {
     required String password,
   });
 
-  Future<Either<AppException, UserModel>> profile();
-
-  Future<Either<AppException, UserModel>> uploadPhoto();
+  Future<bool> logout();
 }

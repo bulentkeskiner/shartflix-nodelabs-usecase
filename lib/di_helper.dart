@@ -6,6 +6,7 @@ import 'package:shartflix/features/auth/data/datasources/auth_remote_data_source
 import 'package:shartflix/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:shartflix/features/auth/domain/repositories/auth_repository.dart';
 import 'package:shartflix/features/auth/domain/use_cases/login_use_case.dart';
+import 'package:shartflix/features/auth/domain/use_cases/logout_use_case.dart';
 import 'package:shartflix/features/auth/domain/use_cases/register_use_case.dart';
 import 'package:shartflix/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:shartflix/features/discover/data/datasources/discover_remote_data_source.dart';
@@ -52,7 +53,7 @@ Future<void> setupLocator() async {
 
   // Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(service: sl()),
+    () => AuthRemoteDataSourceImpl(sl(), sl()),
   );
   sl.registerLazySingleton<SplashRemoteDataSource>(
     () => SplashRemoteDataSourceImpl(sl()),
@@ -65,9 +66,7 @@ Future<void> setupLocator() async {
   );
 
   // Repository
-  sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(authRemoteDataSource: sl()),
-  );
+  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()));
   sl.registerLazySingleton<SplashRepository>(() => SplashRepositoryImpl(sl()));
   sl.registerLazySingleton<DiscoverRepository>(() => DiscoverRepositoryImpl(sl()));
   sl.registerLazySingleton<ProfileRepository>(() => ProfileRepositoryImpl(sl()));
@@ -81,6 +80,7 @@ Future<void> setupLocator() async {
   sl.registerLazySingleton(() => CheckTokenUseCase(sl()));
   sl.registerLazySingleton(() => GetUserUseCase(sl()));
   sl.registerLazySingleton(() => SaveUserUseCase(sl()));
+  sl.registerLazySingleton(() => LogoutUseCase(sl()));
 
   sl.registerLazySingleton(() => GetMovieListUseCase(sl()));
   sl.registerLazySingleton(() => ToggleFavoriteUseCase(sl()));
@@ -91,7 +91,7 @@ Future<void> setupLocator() async {
 
   // Bloc
   sl.registerLazySingleton(() => SplashBloc(sl()));
-  sl.registerLazySingleton(() => AuthBloc(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => AuthBloc(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => DiscoverBloc(sl(), sl()));
   sl.registerLazySingleton(() => MainNavCubit());
   sl.registerLazySingleton(() => ProfileBloc(sl(), sl(), sl()));
