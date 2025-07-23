@@ -24,14 +24,10 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController nameController = TextEditingController(text: "demo1");
-  final TextEditingController emailController = TextEditingController(
-    text: "demo1@nodelabs.com",
-  );
-  final TextEditingController passwordController = TextEditingController(text: "123456");
-  final TextEditingController confirmPasswordController = TextEditingController(
-    text: "123456",
-  );
+  final TextEditingController nameController = TextEditingController(text: "");
+  final TextEditingController emailController = TextEditingController(text: "");
+  final TextEditingController passwordController = TextEditingController(text: "");
+  final TextEditingController confirmPasswordController = TextEditingController(text: "");
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
 

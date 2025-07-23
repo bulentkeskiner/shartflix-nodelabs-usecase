@@ -24,10 +24,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController(
-    text: "demo1@nodelabs.com",
-  );
-  final TextEditingController passwordController = TextEditingController(text: "123456");
+  final TextEditingController emailController = TextEditingController(text: "");
+  final TextEditingController passwordController = TextEditingController(text: "");
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
