@@ -188,16 +188,17 @@ lib/
 
 <table>
   <tr>
+    <td><b>Splash</b><br><img src="screenshots/splash.png" /></td>
     <td><b>Giriş Yap</b><br><img src="screenshots/login.png" /></td>
     <td><b>Kayıt Ol</b><br><img src="screenshots/register.png" /></td>
-    <td><b>Ana Ekran</b><br><img src="screenshots/home.png" /></td>
   </tr>
   <tr>
+    <td><b>Ana Ekran</b><br><img src="screenshots/home.png" /></td>
     <td><b>Profil</b><br><img src="screenshots/profile.png" /></td>
     <td><b>Film Detay</b><br><img src="screenshots/profile_detail.png" /></td>
-    <td><b>Dil Seçme</b><br><img src="screenshots/select_language.png" /></td>
   </tr>
   <tr>
+    <td><b>Dil Seçme</b><br><img src="screenshots/select_language.png" /></td>
     <td><b>Fotoğraf Ekleme</b><br><img src="screenshots/upload_photo.png" /></td>
     <td><b>Sınırlı Teklif</b><br><img src="screenshots/limited_offer.png" /></td>
   </tr>
@@ -224,6 +225,8 @@ flutter pub get
 ```bash
 flutter run
 ```
+
+[📥 APK'yi İndir](download/v1.0.0.apk)
 
 ---
 

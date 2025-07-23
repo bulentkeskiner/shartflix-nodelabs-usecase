@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shartflix/core/app/app_assets_constants.dart';
 import 'package:shartflix/core/app/app_validator.dart';
+import 'package:shartflix/core/components/app_ink_well.dart';
 import 'package:shartflix/core/components/button/primary_button.dart';
 import 'package:shartflix/core/enum/route_type.dart';
 import 'package:shartflix/core/resources/data_state.dart';
@@ -28,8 +29,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController emailController = TextEditingController(text: "");
   final TextEditingController passwordController = TextEditingController(text: "");
   final TextEditingController confirmPasswordController = TextEditingController(text: "");
-  bool obscurePassword = true;
-  bool obscureConfirmPassword = true;
+
+  ValueNotifier<bool> obscurePassNotifier = ValueNotifier(true);
+  ValueNotifier<bool> obscureConfirmPassNotifier = ValueNotifier(true);
 
   @override
   Widget build(BuildContext context) {
@@ -117,59 +119,81 @@ class _RegisterPageState extends State<RegisterPage> {
                         SizedBox(height: 16),
 
                         // Password Input
-                        TextFormField(
-                          controller: passwordController,
-                          validator: AppValidator.instance.passwordValidator,
-                          obscureText: obscurePassword,
-                          decoration: InputDecoration(
-                            hintText: lang(LocaleKeys.passwordPlaceholder),
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.only(left: 18, right: 8),
-                              child: Image.asset(
-                                AssetsConstants.unlock,
-                                width: 15,
-                                height: 15,
+                        ValueListenableBuilder(
+                          valueListenable: obscurePassNotifier,
+                          builder: (context, value, child) {
+                            return TextFormField(
+                              controller: passwordController,
+                              validator: AppValidator.instance.passwordValidator,
+                              obscureText: value,
+                              decoration: InputDecoration(
+                                hintText: lang(LocaleKeys.passwordPlaceholder),
+                                prefixIcon: Padding(
+                                  padding: const EdgeInsets.only(left: 18, right: 8),
+                                  child: Image.asset(
+                                    AssetsConstants.unlock,
+                                    width: 15,
+                                    height: 15,
+                                  ),
+                                ),
+                                suffixIcon: AppInkWell(
+                                  onTap: () {
+                                    obscurePassNotifier.value = !value;
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 8.0,
+                                      right: 20.0,
+                                    ),
+                                    child: Icon(
+                                      !value ? Icons.visibility : Icons.visibility_off,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.only(left: 8.0, right: 20.0),
-                              child: Image.asset(
-                                AssetsConstants.hide,
-                                width: 15,
-                                height: 15,
-                              ),
-                            ),
-                          ),
+                            );
+                          },
                         ),
                         SizedBox(height: 16),
 
                         // Confirm Password Input
-                        TextFormField(
-                          controller: confirmPasswordController,
-                          validator: AppValidator.instance.confirmValidator(
-                            passwordController,
-                          ),
-                          obscureText: obscureConfirmPassword,
-                          decoration: InputDecoration(
-                            fillColor: Colors.grey[900],
-                            hintText: lang(LocaleKeys.confirmPasswordPlaceholder),
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.only(left: 18, right: 8),
-                              child: Image.asset(
-                                AssetsConstants.unlock,
-                                width: 15,
-                                height: 15,
+                        ValueListenableBuilder(
+                          valueListenable: obscureConfirmPassNotifier,
+                          builder: (context, value, child) {
+                            return TextFormField(
+                              controller: confirmPasswordController,
+                              validator: AppValidator.instance.confirmValidator(
+                                passwordController,
                               ),
-                            ),
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.only(left: 8.0, right: 20.0),
-                              child: Image.asset(
-                                AssetsConstants.hide,
-                                width: 15,
-                                height: 15,
+                              obscureText: value,
+                              decoration: InputDecoration(
+                                fillColor: Colors.grey[900],
+                                hintText: lang(LocaleKeys.confirmPasswordPlaceholder),
+                                prefixIcon: Padding(
+                                  padding: const EdgeInsets.only(left: 18, right: 8),
+                                  child: Image.asset(
+                                    AssetsConstants.unlock,
+                                    width: 15,
+                                    height: 15,
+                                  ),
+                                ),
+                                suffixIcon: AppInkWell(
+                                  onTap: () {
+                                    obscureConfirmPassNotifier.value = !value;
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 8.0,
+                                      right: 20.0,
+                                    ),
+                                    child: Icon(
+                                      !value ? Icons.visibility : Icons.visibility_off,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+                            );
+                          },
                         ),
 
                         SizedBox(height: 30),
