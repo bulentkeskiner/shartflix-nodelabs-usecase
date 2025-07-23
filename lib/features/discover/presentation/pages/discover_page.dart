@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shartflix/core/util/context_extension.dart';
 import 'package:shartflix/di_helper.dart';
 import 'package:shartflix/features/discover/presentation/bloc/discover_bloc.dart';
 import 'package:shartflix/features/discover/presentation/bloc/discover_event.dart';
@@ -39,6 +40,12 @@ class _DiscoverPageState extends State<DiscoverPage> {
           movies = state.items;
         }
 
+        if (state is DiscoverLoadingState) {
+          context.showLoader();
+        } else {
+          context.hideLoader();
+        }
+
         /*if (state is DiscoverLoadingFavoriteState) {
           context.showLoader();
         } else {
@@ -56,16 +63,21 @@ class _DiscoverPageState extends State<DiscoverPage> {
           backgroundColor: Colors.black,
           body: Builder(
             builder: (context) {
-              return PageView.builder(
-                controller: pageController,
-                scrollDirection: Axis.vertical,
-                itemCount: movies.length,
-                itemBuilder: (context, index) {
-                  var model = movies[index];
-                  return DiscoverItem(
-                    model: model,
-                    onFavoriteTab: (id) => toggleFavoriteTab(id),
-                  );
+              return RefreshIndicator(
+                child: PageView.builder(
+                  controller: pageController,
+                  scrollDirection: Axis.vertical,
+                  itemCount: movies.length,
+                  itemBuilder: (context, index) {
+                    var model = movies[index];
+                    return DiscoverItem(
+                      model: model,
+                      onFavoriteTab: (id) => toggleFavoriteTab(id),
+                    );
+                  },
+                ),
+                onRefresh: () async {
+                  sl<DiscoverBloc>().add(DiscoverRefreshEvent());
                 },
               );
             },
@@ -93,10 +105,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
     final state = bloc.state;
 
     if (state is DiscoverLoadedState) {
-      print(currentPage);
-      print((state.items.length - 1).toDouble());
       if (!state.hasReachedMax && currentPage == (state.items.length - 1).toDouble()) {
-        print("added");
         bloc.add(DiscoverLoadMore());
       }
     }

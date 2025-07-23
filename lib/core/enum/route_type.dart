@@ -4,7 +4,6 @@ enum RouteType {
   login("/login"),
   photoUpload("/photoUpload"),
   main("/main"),
-  limiterOffer("/limiterOffer"),
   movieDetail("/movieDetail"),
   notFound("/notFound");
 

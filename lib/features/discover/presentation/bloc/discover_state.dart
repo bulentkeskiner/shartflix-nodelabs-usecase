@@ -10,6 +10,8 @@ abstract class DiscoverState extends Equatable {
 
 class DiscoverInitialState extends DiscoverState {}
 
+class DiscoverRefreshState extends DiscoverState {}
+
 class DiscoverLoadingState extends DiscoverState {}
 
 class DiscoverLoadingFavoriteState extends DiscoverState {}

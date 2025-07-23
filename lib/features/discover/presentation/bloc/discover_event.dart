@@ -19,3 +19,5 @@ class DiscoverToggleFavorite extends DiscoverEvent {
   @override
   List<Object?> get props => [itemId];
 }
+
+class DiscoverRefreshEvent extends DiscoverEvent {}

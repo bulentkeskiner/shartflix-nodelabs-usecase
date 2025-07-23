@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:shartflix/core/components/image/network_image.dart';
+import 'package:shartflix/core/theme/constants/app_colors.dart';
+import 'package:shartflix/di_helper.dart';
+import 'package:shartflix/features/discover/presentation/bloc/discover_bloc.dart';
+import 'package:shartflix/features/discover/presentation/bloc/discover_event.dart';
 import 'package:shartflix/models/movie_model.dart';
+import 'package:shartflix/support/app_lang.dart';
 
 class MovieDetailPage extends StatefulWidget {
   final MovieModel? movie;
@@ -20,7 +25,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
   late Animation<Offset> _slideAnimation;
   late Animation<double> _scaleAnimation;
 
-  bool _isFavorite = false;
   bool _isWatchlist = false;
 
   late MovieModel movie;
@@ -66,20 +70,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
       end: 1.0,
     ).animate(CurvedAnimation(parent: _scaleController, curve: Curves.elasticOut));
 
-    _isFavorite = movie.isFavorite ?? false;
-
     // Start animations
     _fadeController.forward();
     _slideController.forward();
     _scaleController.forward();
-  }
-
-  @override
-  void dispose() {
-    _fadeController.dispose();
-    _slideController.dispose();
-    _scaleController.dispose();
-    super.dispose();
   }
 
   @override
@@ -90,7 +84,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF1a1a2e), Color(0xFF16213e), Color(0xFF0f3460)],
+            colors: [AppColors.primary, AppColors.background, AppColors.background],
           ),
         ),
         child: CustomScrollView(
@@ -111,7 +105,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
                       _buildCastSection(),
                       _buildDetailsSection(),
                       _buildImageGallery(),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 50),
                     ],
                   ),
                 ),
@@ -124,6 +118,11 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
   }
 
   Widget _buildSliverAppBar() {
+    var postOriginalUrl = movie.poster ?? "";
+    String correctedUrl = postOriginalUrl.replaceFirst(
+      "http://ia.media-imdb.com",
+      "https://images-na.ssl-images-amazon.com",
+    );
     return SliverAppBar(
       expandedHeight: 400,
       pinned: true,
@@ -131,7 +130,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
       leading: Container(
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.5),
+          color: Colors.black.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(25),
         ),
         child: IconButton(
@@ -143,15 +142,12 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
         Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.black.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(25),
           ),
           child: IconButton(
             icon: const Icon(Icons.share, color: Colors.white),
-            onPressed: () {
-              HapticFeedback.lightImpact();
-              // Share functionality
-            },
+            onPressed: () {},
           ),
         ),
       ],
@@ -159,25 +155,22 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
         background: Stack(
           fit: StackFit.expand,
           children: [
-            Hero(
-              tag: 'movie-${movie.id}',
-              child: Image.network(
-                movie.poster ?? '',
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.grey[800],
-                    child: const Icon(Icons.movie, size: 100, color: Colors.white54),
-                  );
-                },
-              ),
+            AppNetworkImage(
+              imageUrl: correctedUrl,
+              fit: BoxFit.cover,
+              errorWidget: (context, url, error) {
+                return Container(
+                  color: Colors.grey[800],
+                  child: const Icon(Icons.movie, size: 100, color: Colors.white54),
+                );
+              },
             ),
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+                  colors: [Colors.transparent, Colors.black.withValues(alpha: 0.7)],
                 ),
               ),
             ),
@@ -196,7 +189,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
           ScaleTransition(
             scale: _scaleAnimation,
             child: Text(
-              movie.title ?? 'Başlık Yok',
+              movie.title ?? '',
               style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -263,14 +256,14 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               child: ElevatedButton.icon(
-                onPressed: () {
-                  HapticFeedback.mediumImpact();
-                  // Play movie
-                },
+                onPressed: () {},
                 icon: const Icon(Icons.play_arrow),
-                label: const Text('Oynat', style: TextStyle(fontWeight: FontWeight.bold)),
+                label: Text(
+                  lang(LocaleKeys.play),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                  backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -280,23 +273,16 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
           ),
           const SizedBox(width: 12),
           _buildActionButton(
-            icon: _isFavorite ? Icons.favorite : Icons.favorite_border,
-            onPressed: () {
-              setState(() {
-                _isFavorite = !_isFavorite;
-              });
-              HapticFeedback.lightImpact();
-            },
-            color: _isFavorite ? Colors.red : Colors.white,
+            icon: movie.isFavorite == true ? Icons.favorite : Icons.favorite_border,
+            onPressed: () => toggleFavorite(),
+            color: movie.isFavorite == true ? AppColors.white : Colors.white,
           ),
           const SizedBox(width: 8),
           _buildActionButton(
             icon: _isWatchlist ? Icons.check : Icons.add,
             onPressed: () {
-              setState(() {
-                _isWatchlist = !_isWatchlist;
-              });
-              HapticFeedback.lightImpact();
+              _isWatchlist = !_isWatchlist;
+              setState(() {});
             },
             color: _isWatchlist ? Colors.green : Colors.white,
           ),
@@ -315,7 +301,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
       duration: const Duration(milliseconds: 100),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.1),
+          color: Colors.white.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: IconButton(
@@ -329,19 +315,24 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
 
   Widget _buildStatsRow() {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildStatItem('IMDb', movie.imdbRating ?? '0.0', Icons.star, Colors.amber),
           _buildStatItem(
-            'Metascore',
+            lang(LocaleKeys.imdbRating),
+            movie.imdbRating ?? '0.0',
+            Icons.star,
+            Colors.amber,
+          ),
+          _buildStatItem(
+            lang(LocaleKeys.imdbScore),
             movie.metascore ?? '0',
             Icons.analytics,
             Colors.green,
           ),
           _buildStatItem(
-            'Oylar',
+            lang(LocaleKeys.imdbVotes),
             _formatVotes(movie.imdbVotes ?? '0'),
             Icons.people,
             Colors.blue,
@@ -359,7 +350,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
+              color: color.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: color, size: 24),
@@ -385,8 +376,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Konu',
+          Text(
+            lang(LocaleKeys.plot),
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -395,7 +386,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
           ),
           const SizedBox(height: 12),
           Text(
-            movie.plot ?? 'Konu bilgisi mevcut değil.',
+            movie.plot ?? '',
             style: const TextStyle(color: Colors.white70, fontSize: 14, height: 1.5),
           ),
         ],
@@ -409,8 +400,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Oyuncular',
+          Text(
+            lang(LocaleKeys.cast),
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -419,7 +410,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
           ),
           const SizedBox(height: 12),
           Text(
-            movie.actors ?? 'Oyuncu bilgisi mevcut değil.',
+            movie.actors ?? '',
             style: const TextStyle(color: Colors.white70, fontSize: 14),
           ),
         ],
@@ -433,8 +424,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Detaylar',
+          Text(
+            lang(LocaleKeys.details),
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -442,13 +433,13 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
             ),
           ),
           const SizedBox(height: 16),
-          _buildDetailRow('Yönetmen', movie.director ?? 'Bilinmiyor'),
-          _buildDetailRow('Yazar', movie.writer ?? 'Bilinmiyor'),
-          _buildDetailRow('Çıkış Tarihi', movie.released ?? 'Bilinmiyor'),
-          _buildDetailRow('Dil', movie.language ?? 'Bilinmiyor'),
-          _buildDetailRow('Ülke', movie.country ?? 'Bilinmiyor'),
+          _buildDetailRow(lang(LocaleKeys.director), movie.director ?? ''),
+          _buildDetailRow(lang(LocaleKeys.writer), movie.writer ?? ''),
+          _buildDetailRow(lang(LocaleKeys.releaseDate), movie.released ?? ''),
+          _buildDetailRow(lang(LocaleKeys.language), movie.language ?? ''),
+          _buildDetailRow(lang(LocaleKeys.country), movie.country ?? ''),
           if (movie.awards != null && movie.awards!.isNotEmpty)
-            _buildDetailRow('Ödüller', movie.awards!),
+            _buildDetailRow(lang(LocaleKeys.awards), movie.awards!),
         ],
       ),
     );
@@ -483,10 +474,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(20),
           child: Text(
-            'Galeri',
+            lang(LocaleKeys.gallery),
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -539,5 +530,26 @@ class _MovieDetailPageState extends State<MovieDetailPage> with TickerProviderSt
       return '${(number / 1000).toStringAsFixed(1)}K';
     }
     return number.toString();
+  }
+
+  // MARK: Actions
+  void toggleFavorite() {
+    var id = movie.id;
+    if (id == null) return;
+
+    sl<DiscoverBloc>().add(DiscoverToggleFavorite(id));
+
+    // Api eksik olduğu için isFavorite model içinden güncelleniyor.
+    // Api implementasyonu olsaydı, güncel modeli server'dan almak gerekirdi.
+    movie.isFavorite = !movie.isFavorite!;
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _fadeController.dispose();
+    _slideController.dispose();
+    _scaleController.dispose();
+    super.dispose();
   }
 }

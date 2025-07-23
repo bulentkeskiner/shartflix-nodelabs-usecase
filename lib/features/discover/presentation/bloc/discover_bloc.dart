@@ -16,15 +16,26 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
   DiscoverBloc(this._getMovieListUseCase, this._toggleFavoriteUseCase)
     : super(DiscoverInitialState()) {
     on<DiscoverInitialLoad>(_onMovieList);
+    on<DiscoverRefreshEvent>(_onRefresh);
     on<DiscoverLoadMore>(_onMovieLoadMoreList);
     on<DiscoverToggleFavorite>(_onToggleFavorite);
   }
 
-  _onMovieList(DiscoverEvent event, Emitter<DiscoverState> emit) async {
-    emit(DiscoverLoadingState());
+  _onRefresh(DiscoverRefreshEvent event, Emitter<DiscoverState> emit) {
+    currentPage = 1;
+    _hasReachedMax = false;
+    _items = [];
 
+    emit(DiscoverRefreshState());
+    add(DiscoverInitialLoad());
+  }
+
+  _onMovieList(DiscoverEvent event, Emitter<DiscoverState> emit) async {
     currentPage = 1;
     _items = [];
+
+    emit(DiscoverLoadingState());
+
     final result = await _getMovieListUseCase(params: currentPage);
 
     result.fold(

@@ -15,6 +15,7 @@ import 'package:shartflix/features/discover/domain/repositories/discover_reposit
 import 'package:shartflix/features/discover/domain/usecases/get_movie_list_use_case.dart';
 import 'package:shartflix/features/discover/domain/usecases/toggle_favorite_use_case.dart';
 import 'package:shartflix/features/discover/presentation/bloc/discover_bloc.dart';
+import 'package:shartflix/features/language/presentation/bloc/lang_bloc.dart';
 import 'package:shartflix/features/main_navigation/presentation/cubit/main_nav_cubit.dart';
 import 'package:shartflix/features/profile/data/datasources/profile_remote_data_source.dart';
 import 'package:shartflix/features/profile/data/datasources/profile_remote_data_source_impl.dart';
@@ -34,6 +35,7 @@ import 'package:shartflix/features/splash/domain/usecases/get_token_use_case.dar
 import 'package:shartflix/features/splash/domain/usecases/get_user_use_case.dart';
 import 'package:shartflix/features/splash/domain/usecases/save_user_use_case.dart';
 import 'package:shartflix/features/splash/presentation/bloc/splash_bloc.dart';
+import 'package:shartflix/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:shartflix/shared/local/shared_prefs/secure_shrared_pref_impl.dart';
 import 'package:shartflix/shared/local/shared_prefs/shared_pref.dart';
 
@@ -93,4 +95,6 @@ Future<void> setupLocator() async {
   sl.registerLazySingleton(() => DiscoverBloc(sl(), sl()));
   sl.registerLazySingleton(() => MainNavCubit());
   sl.registerLazySingleton(() => ProfileBloc(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => ThemeBloc());
+  sl.registerLazySingleton(() => LanguageBloc());
 }

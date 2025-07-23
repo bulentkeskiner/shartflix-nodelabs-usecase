@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:shartflix/core/enum/route_type.dart';
 import 'package:shartflix/features/auth/presentation/pages/login_page.dart';
 import 'package:shartflix/features/auth/presentation/pages/register_page.dart';
-import 'package:shartflix/features/limited_offer/presentation/pages/limited_offer_page.dart';
 import 'package:shartflix/features/main_navigation/presentation/pages/main_navigation_page.dart';
 import 'package:shartflix/features/profile/presentation/pages/moview_detail_page.dart';
 import 'package:shartflix/features/profile/presentation/pages/photo_upload_page.dart';
@@ -39,10 +38,6 @@ class AppRouter {
       GoRoute(
         path: RouteType.main.name,
         builder: (context, state) => const MainNavigationPage(),
-      ),
-      GoRoute(
-        path: RouteType.limiterOffer.name,
-        builder: (context, state) => const LimitedOfferPage(),
       ),
       GoRoute(
         path: RouteType.movieDetail.name,

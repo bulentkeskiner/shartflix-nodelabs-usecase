@@ -116,6 +116,6 @@ class _MyFavoriteMovieViewState extends State<MyFavoriteMovieView> {
   }
 
   onTapMovieDetail(MovieModel model) {
-    context.pushNamed(RouteType.movieDetail.name, extra: model);
+    context.push(RouteType.movieDetail.name, extra: model);
   }
 }
