@@ -186,12 +186,20 @@ lib/
 
 ## Uygulama Ekran Görüntüleri
 
-![Giriş Yap](screenshots/login.png) ![Kayıt Ol](screenshots/register.png)
-![Ana Ekran](screenshots/home.png) ![Profil](screenshots/profile.png)
-![Film Detay](screenshots/profile_detail.png)
-![Dil Seçme](screenshots/select_language.png)
-![Fotoğraf Ekleme](screenshots/upload_photo.png)
-![Sınırlı Teklif](screenshots/limited_offer.png)
+<table>
+  <tr>
+    <td><img src="screenshots/login.png" width="100" /></td>
+    <td><img src="screenshots/register.png" width="100" /></td>
+    <td><img src="screenshots/home.png" width="100" /></td>
+    <td><img src="screenshots/profile.png" width="100" /></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/profile_detail.png" width="100" /></td>
+    <td><img src="screenshots/select_language.png" width="100" /></td>
+    <td><img src="screenshots/upload_photo.png" width="100" /></td>
+    <td><img src="screenshots/limited_offer.png" width="100" /></td>
+  </tr>
+</table>
 
 ---
 
